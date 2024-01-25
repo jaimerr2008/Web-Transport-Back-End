@@ -11,7 +11,8 @@ namespace WebTransportBackEnd.Context
         public DbSet<User>Users {  get; set; }    
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
-        public DbSet<WebTransportBackEnd.Models.Route> Routes { get; set; }
+        public DbSet<Models.Route> Routes { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
             
     }
 }
