@@ -6,6 +6,7 @@ using WebTransportBackEnd.Models;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 using System.Text;
 namespace WebTransportBackEnd.Controllers
 {
@@ -29,7 +30,8 @@ namespace WebTransportBackEnd.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> Login(LoginUser Login)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.user == Login.user && u.password== Login.password );
+            var EncrypPass=Encrypt.Get
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.user == Login.user && EncrypPass== Login.password );
             if (user == null)
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, new { token = "" });

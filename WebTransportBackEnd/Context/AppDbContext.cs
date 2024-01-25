@@ -9,6 +9,7 @@ namespace WebTransportBackEnd.Context
 
         }
         public DbSet<User>Users {  get; set; }    
+        public DbSet<Driver> Drivers { get; set; }
             
     }
 }
