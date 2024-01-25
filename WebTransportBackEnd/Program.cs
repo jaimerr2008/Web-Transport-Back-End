@@ -1,7 +1,37 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.EntityFrameworkCore;
+using WebTransportBackEnd.Context;
+
 var builder = WebApplication.CreateBuilder(args);
+var conecctionString = builder.Configuration.GetConnectionString("cadenaSql");
 
+//servico para conexion  registro
+
+builder.Services.AddDbContext<AppDbContext>(
+    options => options.UseSqlServer(conecctionString));
 // Add services to the container.
+builder.Configuration.AddJsonFile("appsettings.json");
+var secrekey =builder.Configuration.GetSection("settings").GetSection("secrekey").ToString();
+var keybytes = Encoding.UTF8.GetBytes(secrekey);
+builder.Services.AddAuthentication(config =>
+{
 
+    config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+}).AddJwtBearer(config =>
+{
+    config.RequireHttpsMetadata = true;
+    config.SaveToken = true;
+    config.TokenValidationParameters = new TokenValidationParameters
+    {
+        IssuerSigningKey = new SymmetricSecurityKey(keybytes),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -17,6 +47,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization(); 
 
 app.UseAuthorization();
 
