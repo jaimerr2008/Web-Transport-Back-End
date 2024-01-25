@@ -30,8 +30,8 @@ namespace WebTransportBackEnd.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> Login(LoginUser Login)
         {
-            var EncrypPass=Encrypt.Get
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.user == Login.user && EncrypPass== Login.password );
+            
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.user == Login.user && u.password== Login.password );
             if (user == null)
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, new { token = "" });
