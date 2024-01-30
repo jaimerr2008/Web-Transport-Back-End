@@ -42,7 +42,7 @@ namespace WebTransportBackEnd.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject=claims,
-                Expires=DateTime.UtcNow.AddMinutes(30),
+                Expires=DateTime.UtcNow.AddMinutes(120),
                 SigningCredentials= new SigningCredentials(new SymmetricSecurityKey(keyBytes),SecurityAlgorithms.HmacSha256Signature)
             };
             var tokenHandler = new JwtSecurityTokenHandler();
